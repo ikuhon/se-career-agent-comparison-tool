@@ -1,4 +1,4 @@
-> **リポジトリ名推奨**: `se-career-agent-comparison-tool`
+# 📊 SE転職エージェント比較ツール
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-blue)](https://[your-username].github.io/se-career-agent-comparison-tool/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -144,9 +144,9 @@ CSS変数を使用してテーマカラーを簡単に変更できます：
 
 ## 📞 関連リンク
 
-- **ブログ記事**: [SEがつらい理由と対策完全ガイド](https://example.com/blog/se-tsurai)
-- **作者Twitter**: [@your_twitter_handle](https://twitter.com/your_twitter_handle)
-- **Issue報告**: [GitHub Issues](https://github.com/[your-username]/se-career-agent-comparison-tool/issues)
+- **ブログ記事**: [思考のスイッチ](https://ikuhon.com/)
+- **作者Twitter**: [@happy_ikuji_](https://twitter.com/@happy_ikuji_)
+- **Issue報告**: [GitHub Issues](https://github.com/ikuhon/se-career-agent-comparison-tool/issues)
 
 ## 🙏 謝辞
 
