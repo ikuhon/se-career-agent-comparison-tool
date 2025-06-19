@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SE向け転職エージェント比較ツール</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .filter-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .filter-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #2d3748;
+        }
+
+        .filter-group select, .filter-group input {
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .reset-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease;
+            align-self: flex-end;
+        }
+
+        .reset-btn:hover {
+            background: #5a67d8;
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .agent-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+        }
+
+        .agent-card.featured {
+            border-color: #f6ad55;
+            background: linear-gradient(135deg, #fff 0%, #fefcf3 100%);
+        }
+
+        .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .agent-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2d3748;
+        }
+
+        .agent-type {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .type-comprehensive {
+            background: #bee3f8;
+            color: #2b6cb0;
+        }
+
+        .type-specialized {
+            background: #c6f6d5;
+            color: #2f855a;
+        }
+
+        .type-premium {
+            background: #fed7d7;
+            color: #c53030;
+        }
+
+        .rating-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .rating-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+
+        .rating-item span:first-child {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .stars {
+            color: #f6ad55;
+        }
+
+        .details-section {
+            margin-bottom: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .detail-value {
+            color: #2d3748;
+            text-align: right;
+        }
+
+        .pros-cons {
+            margin-bottom: 15px;
+        }
+
+        .pros, .cons {
+            margin-bottom: 10px;
+        }
+
+        .pros h4, .cons h4 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .pros h4 {
+            color: #38a169;
+        }
+
+        .cons h4 {
+            color: #e53e3e;
+        }
+
+        .pros ul, .cons ul {
+            font-size: 0.85rem;
+            padding-left: 15px;
+        }
+
+        .pros li {
+            color: #2f855a;
+        }
+
+        .cons li {
+            color: #c53030;
+        }
+
+        .cta-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .cta-button:hover {
+            transform: scale(1.02);
+            text-decoration: none;
+            color: white;
+        }
+
+        .tips-section {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .tips-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .tip-item {
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .tip-item h4 {
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .tip-item p {
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 SE向け転職エージェント比較ツール</h1>
+            <p>あなたに最適な転職エージェントを見つけよう</p>
+        </div>
+
+        <div class="filter-section">
+            <h2 class="filter-title">🔍 条件で絞り込み</h2>
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="experience">経験年数</label>
+                    <select id="experience">
+                        <option value="">すべて</option>
+                        <option value="beginner">未経験〜2年</option>
+                        <option value="intermediate">3〜5年</option>
+                        <option value="senior">6年以上</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="salary">希望年収</label>
+                    <select id="salary">
+                        <option value="">すべて</option>
+                        <option value="low">〜400万円</option>
+                        <option value="medium">400〜600万円</option>
+                        <option value="high">600〜1000万円</option>
+                        <option value="premium">1000万円〜</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="area">対応地域</label>
+                    <select id="area">
+                        <option value="">すべて</option>
+                        <option value="nationwide">全国対応</option>
+                        <option value="urban">都市部中心</option>
+                        <option value="tokyo">首都圏のみ</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="specialty">専門性</label>
+                    <select id="specialty">
+                        <option value="">すべて</option>
+                        <option value="comprehensive">総合型</option>
+                        <option value="it-specialized">IT専門</option>
+                        <option value="premium">ハイクラス</option>
+                    </select>
+                </div>
+                <button class="reset-btn" onclick="resetFilters()">リセット</button>
+            </div>
+        </div>
+
+        <div class="agents-grid" id="agents-grid">
+            <!-- エージェントカードがここに動的に生成されます -->
+        </div>
+
+        <div class="tips-section">
+            <h2 class="tips-title">💡 エージェント活用のコツ</h2>
+            <div class="tips-grid">
+                <div class="tip-item">
+                    <h4>複数登録が基本</h4>
+                    <p>3-4社に登録して比較検討することで、より良い条件の求人に出会える可能性が高まります。</p>
+                </div>
+                <div class="tip-item">
+                    <h4>専門性を重視</h4>
+                    <p>IT業界に特化したエージェントは、技術的な相談や適切な求人紹介が期待できます。</p>
+                </div>
+                <div class="tip-item">
+                    <h4>担当者との相性</h4>
+                    <p>コミュニケーションが取りやすく、業界知識が豊富な担当者を選びましょう。</p>
+                </div>
+                <div class="tip-item">
+                    <h4>継続的な連絡</h4>
+                    <p>定期的に連絡を取り、転職意欲をアピールすることで優良案件を紹介してもらいやすくなります。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const agents = [
+            {
+                name: "リクルートエージェント",
+                type: "comprehensive",
+                typeLabel: "総合型",
+                featured: true,
+                ratings: {
+                    jobCount: 5,
+                    salary: 4,
+                    support: 4,
+                    specialty: 3
+                },
+                details: {
+                    jobCount: "約4万件（IT系）",
+                    salaryRange: "300万〜1500万円",
+                    area: "全国対応",
+                    specialty: "総合型（案件数でカバー）"
+                },
+                pros: [
+                    "業界最大級の求人数",
+                    "大手企業案件が豊富",
+                    "全国どこでも対応"
+                ],
+                cons: [
+                    "担当者のIT知識にバラつき",
+                    "大量紹介で選別が大変"
+                ],
+                url: "https://www.r-agent.com/",
+                targetExperience: ["beginner", "intermediate", "senior"],
+                targetSalary: ["low", "medium", "high", "premium"],
+                targetArea: ["nationwide"],
+                targetSpecialty: ["comprehensive"]
+            },
+            {
+                name: "レバテックキャリア",
+                type: "specialized",
+                typeLabel: "IT専門",
+                featured: true,
+                ratings: {
+                    jobCount: 3,
+                    salary: 5,
+                    support: 5,
+                    specialty: 5
+                },
+                details: {
+                    jobCount: "約1.5万件（質重視）",
+                    salaryRange: "400万〜1800万円",
+                    area: "東京・大阪・名古屋・福岡",
+                    specialty: "エンジニア出身アドバイザー"
+                },
+                pros: [
+                    "技術面談・ポートフォリオ添削",
+                    "エンジニア出身のアドバイザー",
+                    "高年収案件が豊富"
+                ],
+                cons: [
+                    "未経験者には厳しい",
+                    "地方求人は少ない"
+                ],
+                url: "https://career.levtech.jp/",
+                targetExperience: ["intermediate", "senior"],
+                targetSalary: ["medium", "high", "premium"],
+                targetArea: ["urban"],
+                targetSpecialty: ["it-specialized"]
+            },
+            {
+                name: "doda",
+                type: "comprehensive",
+                typeLabel: "総合型",
+                featured: false,
+                ratings: {
+                    jobCount: 4,
+                    salary: 4,
+                    support: 4,
+                    specialty: 3
+                },
+                details: {
+                    jobCount: "約2.5万件（IT系）",
+                    salaryRange: "350万〜1200万円",
+                    area: "全国（主要都市中心）",
+                    specialty: "IT専門チームあり"
+                },
+                pros: [
+                    "転職フェア・セミナー充実",
+                    "バランス良いサポート",
+                    "求人数が豊富"
+                ],
+                cons: [
+                    "求人の質にバラつき",
+                    "積極的な営業スタイル"
+                ],
+                url: "https://doda.jp/",
+                targetExperience: ["beginner", "intermediate", "senior"],
+                targetSalary: ["low", "medium", "high"],
+                targetArea: ["nationwide"],
+                targetSpecialty: ["comprehensive"]
+            },
+            {
+                name: "マイナビITエージェント",
+                type: "specialized",
+                typeLabel: "IT専門",
+                featured: false,
+                ratings: {
+                    jobCount: 3,
+                    salary: 3,
+                    support: 5,
+                    specialty: 4
+                },
+                details: {
+                    jobCount: "約1.8万件（IT系）",
+                    salaryRange: "300万〜1000万円",
+                    area: "全国（関東・関西中心）",
+                    specialty: "IT専門エージェント"
+                },
+                pros: [
+                    "20代・第二新卒に強い",
+                    "丁寧なサポート",
+                    "未経験者歓迎"
+                ],
+                cons: [
+                    "40代以上の求人は少なめ",
+                    "ハイクラス案件は限定的"
+                ],
+                url: "https://mynavi-agent.jp/it/",
+                targetExperience: ["beginner", "intermediate"],
+                targetSalary: ["low", "medium"],
+                targetArea: ["nationwide"],
+                targetSpecialty: ["it-specialized"]
+            },
+            {
+                name: "ビズリーチ",
+                type: "premium",
+                typeLabel: "ハイクラス",
+                featured: true,
+                ratings: {
+                    jobCount: 4,
+                    salary: 5,
+                    support: 3,
+                    specialty: 3
+                },
+                details: {
+                    jobCount: "年収600万円以上多数",
+                    salaryRange: "600万〜3000万円",
+                    area: "全国・外資系多数",
+                    specialty: "CTO・技術部長クラス"
+                },
+                pros: [
+                    "ハイクラス案件が豊富",
+                    "スカウト機能が充実",
+                    "外資系・グローバル企業多数"
+                ],
+                cons: [
+                    "有料プランが基本",
+                    "経験不足だと厳しい"
+                ],
+                url: "https://www.bizreach.jp/",
+                targetExperience: ["senior"],
+                targetSalary: ["high", "premium"],
+                targetArea: ["nationwide"],
+                targetSpecialty: ["premium"]
+            },
+            {
+                name: "ワークポート",
+                type: "specialized",
+                typeLabel: "IT専門",
+                featured: false,
+                ratings: {
+                    jobCount: 4,
+                    salary: 3,
+                    support: 4,
+                    specialty: 4
+                },
+                details: {
+                    jobCount: "約2万件（IT系）",
+                    salaryRange: "250万〜1200万円",
+                    area: "全国対応",
+                    specialty: "IT業界特化の老舗"
+                },
+                pros: [
+                    "未経験からIT転職",
+                    "ゲーム業界に強い",
+                    "転職回数が多くても対応"
+                ],
+                cons: [
+                    "質より量の傾向",
+                    "高年収案件は限定的"
+                ],
+                url: "https://www.workport.co.jp/",
+                targetExperience: ["beginner", "intermediate"],
+                targetSalary: ["low", "medium"],
+                targetArea: ["nationwide"],
+                targetSpecialty: ["it-specialized"]
+            },
+            {
+                name: "TechClipsエージェント",
+                type: "specialized",
+                typeLabel: "IT専門",
+                featured: false,
+                ratings: {
+                    jobCount: 2,
+                    salary: 5,
+                    support: 5,
+                    specialty: 5
+                },
+                details: {
+                    jobCount: "厳選求人約500件",
+                    salaryRange: "500万〜1500万円以上",
+                    area: "首都圏中心",
+                    specialty: "現役エンジニアがサポート"
+                },
+                pros: [
+                    "高年収・自社開発特化",
+                    "現役エンジニアのサポート",
+                    "質の高い厳選求人"
+                ],
+                cons: [
+                    "求人数が限定的",
+                    "首都圏のみ対応"
+                ],
+                url: "https://agent.tech-clips.com/",
+                targetExperience: ["intermediate", "senior"],
+                targetSalary: ["medium", "high", "premium"],
+                targetArea: ["tokyo"],
+                targetSpecialty: ["it-specialized"]
+            },
+            {
+                name: "JACリクルートメント",
+                type: "premium",
+                typeLabel: "ハイクラス",
+                featured: false,
+                ratings: {
+                    jobCount: 3,
+                    salary: 5,
+                    support: 5,
+                    specialty: 4
+                },
+                details: {
+                    jobCount: "質重視の厳選求人",
+                    salaryRange: "600万〜2000万円",
+                    area: "全国・外資系多数",
+                    specialty: "ITコンサル・管理職"
+                },
+                pros: [
+                    "ITコンサルタント案件",
+                    "外資系・グローバル企業",
+                    "業界知識・サポート品質高い"
+                ],
+                cons: [
+                    "敷居が高い",
+                    "若手向け求人は少ない"
+                ],
+                url: "https://www.jac-recruitment.jp/",
+                targetExperience: ["senior"],
+                targetSalary: ["high", "premium"],
+                targetArea: ["nationwide"],
+                targetSpecialty: ["premium"]
+            }
+        ];
+
+        function generateStars(rating) {
+            return '★'.repeat(rating) + '☆'.repeat(5 - rating);
+        }
+
+        function getTypeClass(type) {
+            const typeClasses = {
+                'comprehensive': 'type-comprehensive',
+                'specialized': 'type-specialized',
+                'premium': 'type-premium'
+            };
+            return typeClasses[type] || 'type-comprehensive';
+        }
+
+        function createAgentCard(agent) {
+            return `
+                <div class="agent-card ${agent.featured ? 'featured' : ''}" 
+                     data-experience="${agent.targetExperience.join(',')}"
+                     data-salary="${agent.targetSalary.join(',')}"
+                     data-area="${agent.targetArea.join(',')}"
+                     data-specialty="${agent.targetSpecialty.join(',')}">
+                    
+                    <div class="agent-header">
+                        <h3 class="agent-name">${agent.name}</h3>
+                        <span class="agent-type ${getTypeClass(agent.type)}">${agent.typeLabel}</span>
+                    </div>
+
+                    <div class="rating-section">
+                        <div class="rating-item">
+                            <span>求人数</span>
+                            <span class="stars">${generateStars(agent.ratings.jobCount)}</span>
+                        </div>
+                        <div class="rating-item">
+                            <span>年収レンジ</span>
+                            <span class="stars">${generateStars(agent.ratings.salary)}</span>
+                        </div>
+                        <div class="rating-item">
+                            <span>サポート品質</span>
+                            <span class="stars">${generateStars(agent.ratings.support)}</span>
+                        </div>
+                        <div class="rating-item">
+                            <span>IT専門性</span>
+                            <span class="stars">${generateStars(agent.ratings.specialty)}</span>
+                        </div>
+                    </div>
+
+                    <div class="details-section">
+                        <div class="detail-row">
+                            <span class="detail-label">求人数</span>
+                            <span class="detail-value">${agent.details.jobCount}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">年収レンジ</span>
+                            <span class="detail-value">${agent.details.salaryRange}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">対応地域</span>
+                            <span class="detail-value">${agent.details.area}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">専門性</span>
+                            <span class="detail-value">${agent.details.specialty}</span>
+                        </div>
+                    </div>
+
+                    <div class="pros-cons">
+                        <div class="pros">
+                            <h4>✅ メリット</h4>
+                            <ul>
+                                ${agent.pros.map(pro => `<li>${pro}</li>`).join('')}
+                            </ul>
+                        </div>
+                        <div class="cons">
+                            <h4>⚠️ 注意点</h4>
+                            <ul>
+                                ${agent.cons.map(con => `<li>${con}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a href="${agent.url}" target="_blank" class="cta-button">
+                        公式サイトをチェック 🚀
+                    </a>
+                </div>
+            `;
+        }
+
+        function renderAgents(filteredAgents = agents) {
+            const grid = document.getElementById('agents-grid');
+            grid.innerHTML = filteredAgents.map(agent => createAgentCard(agent)).join('');
+        }
+
+        function filterAgents() {
+            const experience = document.getElementById('experience').value;
+            const salary = document.getElementById('salary').value;
+            const area = document.getElementById('area').value;
+            const specialty = document.getElementById('specialty').value;
+
+            const filtered = agents.filter(agent => {
+                const matchExperience = !experience || agent.targetExperience.includes(experience);
+                const matchSalary = !salary || agent.targetSalary.includes(salary);
+                const matchArea = !area || agent.targetArea.includes(area);
+                const matchSpecialty = !specialty || agent.targetSpecialty.includes(specialty);
+
+                return matchExperience && matchSalary && matchArea && matchSpecialty;
+            });
+
+            renderAgents(filtered);
+        }
+
+        function resetFilters() {
+            document.getElementById('experience').value = '';
+            document.getElementById('salary').value = '';
+            document.getElementById('area').value = '';
+            document.getElementById('specialty').value = '';
+            renderAgents();
+        }
+
+        // イベントリスナーの設定
+        document.getElementById('experience').addEventListener('change', filterAgents);
+        document.getElementById('salary').addEventListener('change', filterAgents);
+        document.getElementById('area').addEventListener('change', filterAgents);
+        document.getElementById('specialty').addEventListener('change', filterAgents);
+
+        // 初期表示
+        renderAgents();
+    </script>
+</body>
+</html>
