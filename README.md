@@ -1,5 +1,3 @@
-# 📊 SE転職エージェント比較ツール
-
 > **リポジトリ名推奨**: `se-career-agent-comparison-tool`
 
 [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-blue)](https://[your-username].github.io/se-career-agent-comparison-tool/)
