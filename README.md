@@ -57,7 +57,7 @@ open index.html
 2. `index.html`をアップロード
 3. Settings → Pages → Source で `Deploy from a branch` を選択
 4. Branch を `main` に設定
-5. `https://[your-username].github.io/se-career-agent-comparison-tool/` でアクセス可能
+5. `https://ikuhon.github.io/se-career-agent-comparison-tool/` でアクセス可能
 
 ## 📊 掲載エージェント一覧
 
