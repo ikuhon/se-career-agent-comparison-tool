@@ -34,7 +34,7 @@
 
 ## 🚀 デモサイト
 
-**👉 [ライブデモを見る](https://[your-username].github.io/se-career-agent-comparison-tool/)**
+**👉 [ライブデモを見る](https://ikuhon.github.io/se-career-agent-comparison-tool/)**
 
 ## 📦 使い方
 
@@ -42,7 +42,7 @@
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/[your-username]/se-career-agent-comparison-tool.git
+git clone https://github.com/ikuhon/se-career-agent-comparison-tool.git
 
 # ディレクトリに移動
 cd se-career-agent-comparison-tool
